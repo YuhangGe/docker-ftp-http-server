@@ -26,5 +26,8 @@ VOLUME ["/files"]
 
 EXPOSE 21 4559 4560 4561 4562 4563 4564
 
+RUN ["chmod", "+x", "/entry.sh"]
+RUN ["chmod", "+x", "/add-virtual-user.sh"]
+
 ENTRYPOINT ["/entry.sh"]
 CMD ["vsftpd-nginx"]
