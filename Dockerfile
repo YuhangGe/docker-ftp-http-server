@@ -1,6 +1,7 @@
 FROM node:latest
 MAINTAINER Yuhang Ge
 
+RUN npm i -g npm
 RUN mkdir /opt/ftp-nginx
 COPY index.js /opt/ftp-nginx/index.js
 COPY package.json /opt/ftp-nginx/package.json
