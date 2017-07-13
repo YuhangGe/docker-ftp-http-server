@@ -1,7 +1,6 @@
-FROM node:latest
+FROM node:6.11.1-alpine
 MAINTAINER Yuhang Ge
 
-RUN npm i -g npm
 RUN mkdir /opt/ftp-nginx
 COPY index.js /opt/ftp-nginx/index.js
 COPY package.json /opt/ftp-nginx/package.json
@@ -11,4 +10,4 @@ RUN npm install
 
 EXPOSE 80 21
 
-ENTRYPOINT ["npm", "run", "go"]
+ENTRYPOINT ["npm", "start"]
