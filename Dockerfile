@@ -9,3 +9,5 @@ WORKDIR /opt/ftp-nginx
 RUN npm install
 
 EXPOSE 80 21
+
+CMD ["npm", "start"]
