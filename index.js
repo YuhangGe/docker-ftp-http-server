@@ -75,6 +75,8 @@ server.on('client:connected', function(connection) {
   });
 });
 
-// server.debugging = 4;
+if (process.env.DEBUG_LEVEL) {
+  server.debugging = parseInt(process.env.DEBUG_LEVEL);
+}
 server.listen(options.port);
 console.log('ftpd listening on port ' + options.port);
