@@ -1,33 +1,35 @@
-FROM debian:jessie
+FROM centos:7
+MAINTAINER Fer Uria <fauria@gmail.com>
+LABEL Description="vsftpd Docker image based on Centos 7. Supports passive mode and virtual users." \
+	License="Apache License 2.0" \
+	Usage="docker run -d -p [HOST PORT NUMBER]:21 -v [HOST FTP HOME]:/home/vsftpd fauria/vsftpd" \
+	Version="1.0"
 
-RUN apt-get update && apt-get install --no-install-recommends --no-install-suggests -y nginx
+RUN yum -y update && yum clean all
+RUN yum -y install httpd && yum clean all
+RUN yum install -y \
+	vsftpd \
+	db4-utils \
+	db4
 
-# forward request and error logs to docker log collector
-RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-	&& ln -sf /dev/stderr /var/log/nginx/error.log
-COPY nginx_host.conf /etc/nginx/nginx.conf
-EXPOSE 80 443
+ENV FTP_USER **String**
+ENV FTP_PASS **Random**
+ENV PASV_ADDRESS **IPv4**
+ENV PASV_MIN_PORT 21100
+ENV PASV_MAX_PORT 21110
+ENV LOG_STDOUT **Boolean**
 
-# install vsftpd
-RUN groupadd -g 48 ftp && \
-    useradd --no-create-home --home-dir /files -s /bin/false --uid 48 --gid 48 -c 'ftp daemon' ftp
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends vsftpd db5.3-util whois \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-RUN mkdir -p /var/run/vsftpd/empty /etc/vsftpd/user_conf /var/ftp /files && \
-    touch /var/log/vsftpd.log && \
-    rm -rf /files/ftp
-COPY vsftpd*.conf /etc/
+COPY vsftpd.conf /etc/vsftpd/
 COPY vsftpd_virtual /etc/pam.d/
-COPY *.sh /
+COPY run-vsftpd.sh /usr/sbin/
 
-VOLUME ["/files"]
+RUN chmod +x /usr/sbin/run-vsftpd.sh
+RUN mkdir -p /home/vsftpd/
+RUN chown -R ftp:ftp /home/vsftpd/
 
-EXPOSE 21 4559 4560 4561 4562 4563 4564
+VOLUME /home/vsftpd
+VOLUME /var/log/vsftpd
 
-RUN ["chmod", "+x", "/entry.sh"]
-RUN ["chmod", "+x", "/add-virtual-user.sh"]
+EXPOSE 20 21
 
-ENTRYPOINT ["/entry.sh"]
-CMD ["vsftpd-nginx"]
+CMD ["/usr/sbin/run-vsftpd.sh"]
