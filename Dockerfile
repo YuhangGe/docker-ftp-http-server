@@ -10,4 +10,4 @@ RUN npm install
 
 EXPOSE 80 21
 
-CMD ["npm", "run", "dev"]
+ENTRYPOINT ["npm", "run", "go"]
