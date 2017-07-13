@@ -1,0 +1,24 @@
+{
+  "name": "ftp-nginx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "HTTP_PORT=8081 FTP_PORT=8082 npm run start",
+    "http": "http-server -p ${HTTP_PORT:=80} ./upload",
+    "ftp": "node ./index.js",
+    "start": "mkdir -p ./upload && concurrently 'npm run http' 'npm run ftp'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/Quiz42/ftp-nginx.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/Quiz42/ftp-nginx#readme",
+  "dependencies": {
+    "concurrently": "^3.5.0",
+    "ftpd": "git+https://github.com/sstur/nodeftpd.git",
+    "http-server": "^0.10.0"
+  }
+}
