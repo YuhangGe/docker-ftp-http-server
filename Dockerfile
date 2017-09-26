@@ -1,10 +1,10 @@
 FROM node:latest
 MAINTAINER Yuhang Ge
 
-COPY index.js /opt/ftp-nginx/index.js
-COPY package.json /opt/ftp-nginx/package.json
-COPY package-lock.json /opt/ftp-nginx/package-lock.json
-WORKDIR /opt/ftp-nginx
+COPY index.js /opt/ftp-http-server/index.js
+COPY package.json /opt/ftp-http-server/package.json
+COPY package-lock.json /opt/ftp-http-server/package-lock.json
+WORKDIR /opt/ftp-http-server
 RUN npm install
 
 EXPOSE 80 21
