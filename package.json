@@ -17,9 +17,9 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/Quiz42/ftp-nginx#readme",
   "dependencies": {
-    "address": "^1.0.2",
-    "concurrently": "^3.5.0",
-    "ftp-srv": "^2.10.1",
-    "http-server": "^0.10.0"
+    "address": "^1.1.0",
+    "concurrently": "^4.1.0",
+    "ftp-srv": "^4.1.0",
+    "http-server": "^0.11.1"
   }
 }
